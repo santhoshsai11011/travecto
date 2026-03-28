@@ -66,6 +66,30 @@ function App() {
         </main>
         <Footer />
       </div>
+
+      {/* Watermark */}
+      <div style={{
+        position: 'fixed',
+        bottom: '16px',
+        right: '16px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '5px',
+        padding: '6px 12px',
+        background: '#0f1f4b',
+        borderRadius: '100px',
+        fontSize: '12px',
+        fontWeight: 600,
+        color: 'rgba(255,255,255,0.75)',
+        fontFamily: 'Plus Jakarta Sans, sans-serif',
+        pointerEvents: 'none',
+        userSelect: 'none',
+        zIndex: 9999,
+      }}>
+        <span style={{ color: '#f76b5e' }}>✈</span>
+        Built by Santhosh Sai
+      </div>
+
     </BrowserRouter>
   )
 }

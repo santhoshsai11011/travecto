@@ -86,7 +86,6 @@ function App() {
         userSelect: 'none',
         zIndex: 9999,
       }}>
-        <span style={{ color: '#f76b5e' }}>✈</span>
         Built by Santhosh Sai
       </div>
 

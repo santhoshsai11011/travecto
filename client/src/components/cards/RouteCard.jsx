@@ -13,7 +13,7 @@ export default function RouteCard({ data }) {
       <div style={{ padding: '20px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '10px', marginBottom: '14px' }}>
           {[
-            { value: data.distanceKm, sub: 'km', label: 'Distance', color: '#1d4ed8', bg: '#dbeafe' },
+            { value: `${Math.round(data.distanceKm)} km`, sub: '', label: 'Distance', color: '#1d4ed8', bg: '#dbeafe' },
             { value: data.drivingTime?.formatted, sub: '', label: 'Drive time', color: '#7c3aed', bg: '#ede9fe' },
             { value: `₹${data.fuelCost?.costINR}`, sub: '', label: 'Fuel cost', color: '#15803d', bg: '#dcfce7' },
           ].map((item, i) => (

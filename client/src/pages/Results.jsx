@@ -20,11 +20,18 @@ function MapViewWrapper({ mode, source, sourceCountry, destination, destinationC
   const [coords, setCoords] = useState(null)
 
   useEffect(() => {
+    // Reset immediately so stale coords never persist while new ones load
+    setCoords(null)
+
     const geocode = async (city, country) => {
       try {
-        const query = country ? `${city}, ${country}` : city
+        // Don't append country if it's the same as the city name
+        // (happens when user leaves destination country blank — it falls back to the city)
+        const countryIsValid = country &&
+          country.trim().toLowerCase() !== city.trim().toLowerCase()
+        const query = countryIsValid ? `${city}, ${country}` : city
         const res = await fetch(
-          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`,
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&addressdetails=1`,
           { headers: { 'User-Agent': 'Travecto/1.0' } }
         )
         const data = await res.json()
@@ -34,6 +41,7 @@ function MapViewWrapper({ mode, source, sourceCountry, destination, destinationC
     }
 
     const fetchCoords = async () => {
+      // For road mode, prefer server-geocoded coords from ORS (already city-accurate)
       if (mode === 'road' && routeData?.sourceCoords && routeData?.destCoords) {
         setCoords({ source: routeData.sourceCoords, dest: routeData.destCoords })
         return

@@ -87,6 +87,7 @@ export default function MapView({ mode, sourceCoords, destCoords, source, destin
 
       <div style={{ height: '350px', width: '100%' }}>
         <MapContainer
+          key={`${startPos[0]}-${startPos[1]}-${endPos[0]}-${endPos[1]}`}
           center={[centerLat, centerLng]}
           zoom={5}
           style={{ height: '100%', width: '100%' }}

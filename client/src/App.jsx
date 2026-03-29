@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import Navbar from './components/common/Navbar'
@@ -89,6 +90,7 @@ function App() {
         Built by Santhosh Sai
       </div>
 
+      <Analytics />
     </BrowserRouter>
   )
 }

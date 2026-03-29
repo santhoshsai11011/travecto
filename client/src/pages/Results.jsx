@@ -23,15 +23,13 @@ function MapViewWrapper({ mode, source, sourceCountry, destination, destinationC
     // Reset immediately so stale coords never persist while new ones load
     setCoords(null)
 
-    const geocode = async (city, country) => {
+    const geocode = async (city) => {
       try {
-        // Don't append country if it's the same as the city name
-        // (happens when user leaves destination country blank — it falls back to the city)
-        const countryIsValid = country &&
-          country.trim().toLowerCase() !== city.trim().toLowerCase()
-        const query = countryIsValid ? `${city}, ${country}` : city
+        // Use city name only — Nominatim ranks by prominence so "Moscow" returns
+        // Moscow Russia, "Amsterdam" returns Amsterdam Netherlands, etc.
+        // Appending a country (especially the default "India") breaks international cities.
         const res = await fetch(
-          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&addressdetails=1`,
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json&limit=1`,
           { headers: { 'User-Agent': 'Travecto/1.0' } }
         )
         const data = await res.json()
@@ -47,8 +45,8 @@ function MapViewWrapper({ mode, source, sourceCountry, destination, destinationC
         return
       }
       const [srcCoords, dstCoords] = await Promise.all([
-        geocode(source, sourceCountry),
-        geocode(destination, destinationCountry),
+        geocode(source),
+        geocode(destination),
       ])
       if (srcCoords && dstCoords) setCoords({ source: srcCoords, dest: dstCoords })
     }
